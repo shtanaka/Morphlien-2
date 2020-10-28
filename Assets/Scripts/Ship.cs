@@ -9,9 +9,12 @@ public class Ship : MonoBehaviour
     [SerializeField] private float shipVelocity = 10f;
     [SerializeField] private float bulletVelocity = 2000f;
     [SerializeField] private GameObject regularBulletPrefab;
+    [SerializeField] public bool IsShipReadyToPlay { get; set; } = true;
 
     private float throttleIncrease;
     private float xMin, xMax, yMin, yMax;
+
+    public bool IsShipStartAnimationFinished { get; private set; } = false;
 
     void Start()
     {
@@ -21,8 +24,13 @@ public class Ship : MonoBehaviour
 
     void Update()
     {
-        MoveShip();
-        Fire();
+        FinishShipStartAnimation();
+
+        if (IsShipStartAnimationFinished && IsShipReadyToPlay)
+        {
+            MoveShip();
+            Fire();
+        }
     }
 
     private void SetupMoveBoundaries()
@@ -59,6 +67,15 @@ public class Ship : MonoBehaviour
             var bullet = Instantiate(regularBulletPrefab, bulletInstancePosition, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, Time.deltaTime * bulletVelocity);
             Destroy(bullet, 2f);
+        }
+    }
+
+    public void FinishShipStartAnimation()
+    {
+        var shipStartAnimation = GetComponent<Animation>();
+        if (!shipStartAnimation.isPlaying)
+        {
+            IsShipStartAnimationFinished = true;
         }
     }
 }
