@@ -34,7 +34,6 @@ public class SceneLogic : MonoBehaviour
     {
         if (mainMenu.IsGUIClosed)
         {
-            Destroy(mainMenu);
             gameShip.IsShipReadyToPlay = true;
         }
     }

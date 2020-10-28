@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
         if (isClosingGUI && !animation.isPlaying)
         {
             IsGUIClosed = true;
+            Destroy(gameObject);
         }
     }
 
